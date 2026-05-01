@@ -1,0 +1,43 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users can read any profile, but only write their own
+    match /users/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Games: clients can read games they're in; NO client writes.
+    // All writes go through Cloud Functions (server-validated).
+    match /games/{gameId} {
+      allow read: if request.auth != null
+                  && request.auth.uid in resource.data.playerUids;
+      allow write: if false;
+
+      match /moves/{moveId} {
+        allow read: if request.auth != null
+                    && request.auth.uid in get(/databases/$(database)/documents/games/$(gameId)).data.playerUids;
+        allow write: if false;
+      }
+    }
+
+    // Rooms: read to anyone with the code; writes go through Cloud Functions
+    match /rooms/{code} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // Puzzles: public read
+    match /puzzles/{puzzleId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Puzzle completions: users own their own
+    match /puzzleCompletions/{uid}/completions/{puzzleId} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+  }
+}

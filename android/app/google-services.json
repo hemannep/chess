@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "794632400427",
+    "project_id": "chess-232e5",
+    "storage_bucket": "chess-232e5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794632400427:android:c95f5a21d304acd1d2446e",
+        "android_client_info": {
+          "package_name": "com.manjojuice.chess"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJsJxiMu3FCpLxxOHngieUpsRiaZv9cIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
